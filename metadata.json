@@ -1,0 +1,6 @@
+{
+  "name": "YouTube Video Title Generator",
+  "description": "High-CTR dual-track title optimizer for YouTube, producing SEO and audience psychology titles.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
