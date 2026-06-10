@@ -67,7 +67,7 @@ RULES:
         "HTTP-Referer": "https://youtube-title-generator.vercel.app",
       },
       body: JSON.stringify({
-        model: "openrouter/auto",
+        model: "google/gemma-3-27b-it:free",
         messages: [{ role: "user", content: prompt }]
       })
     });
