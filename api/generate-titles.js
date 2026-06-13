@@ -66,7 +66,7 @@ RULES:
       body: JSON.stringify({
   model: "openrouter/free",
   messages: [{ role: "user", content: prompt }],
-  max_tokens: 4000
+  max_tokens: 6000
 })
     });
 
@@ -77,11 +77,18 @@ RULES:
     }
 
     const text = data.choices[0].message.content || "{}";
-    const jsonStart = text.indexOf("{");
-    const jsonEnd = text.lastIndexOf("}");
-    const cleanJson = text.substring(jsonStart, jsonEnd + 1);
-    const parsed = JSON.parse(cleanJson);
-    res.json(parsed);
+const jsonStart = text.indexOf("{");
+const jsonEnd = text.lastIndexOf("}");
+if (jsonStart === -1 || jsonEnd === -1) {
+  return res.status(500).json({ error: "AI returned invalid response" });
+}
+const cleanJson = text.substring(jsonStart, jsonEnd + 1);
+try {
+  const parsed = JSON.parse(cleanJson);
+  res.json(parsed);
+} catch(e) {
+  return res.status(500).json({ error: "JSON parse failed: " + cleanJson.substring(0, 200) });
+}
 
   } catch (error) {
     console.error("Error:", error);
