@@ -67,8 +67,7 @@ RULES:
         "HTTP-Referer": "https://youtube-title-generator.vercel.app",
       },
       body: JSON.stringify({
-model: "qwen/qwen3-next-80b-a3b-instruct:free",
-        messages: [{ role: "user", content: prompt }]
+model: "meta-llama/llama-3.2-3b-instruct:free",        messages: [{ role: "user", content: prompt }]
       })
     });
 
