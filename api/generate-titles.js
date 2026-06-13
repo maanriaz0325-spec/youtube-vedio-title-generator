@@ -54,7 +54,7 @@ RULES:
 - Max 65 characters per title
 - ALL numeric values must be integers (e.g. 52, not "fifty-two")
 - chars field must be a number, not words
-- Return ONLY JSON, no markdown
+- Return ONLY JSON, no markdown`;
 
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
