@@ -2,20 +2,16 @@ module.exports = async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
-
   try {
-    const { videoIdea, keywords, majorCategory, customNiche, format, audience, tone, maturity } = req.body;
-
+    const { videoIdea, keywords, majorCategory, format, tone } = req.body;
     if (!videoIdea) {
       return res.status(400).json({ error: "Video Idea is required" });
     }
-
     if (!process.env.OPENROUTER_API_KEY) {
       return res.status(500).json({ error: "No API key configured" });
     }
 
     const prompt = `You are YTGEN, an elite YouTube SEO strategist.
-
 Generate exactly 10 YouTube video titles for:
 - Video Idea: "${videoIdea}"
 - Keywords: ${JSON.stringify(keywords || [])}
@@ -25,7 +21,7 @@ Generate exactly 10 YouTube video titles for:
 
 Return ONLY valid JSON:
 {
-  "niche_detected": "Category → Custom Niche",
+  "niche_detected": "Category -> Custom Niche",
   "track_a": [
     {
       "title": "SEO optimized title here",
@@ -53,10 +49,9 @@ Return ONLY valid JSON:
 }
 
 RULES:
-- track_a: exactly 5 SEO-optimized titles (keyword front-loaded in first 35 chars)
+- track_a: exactly 5 SEO-optimized titles
 - track_b: exactly 5 curiosity/psychology titles
 - Max 65 characters per title
-- All titles must be unique and creative
 - Return ONLY JSON, no markdown`;
 
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
@@ -67,10 +62,11 @@ RULES:
         "HTTP-Referer": "https://youtube-title-generator.vercel.app",
       },
       body: JSON.stringify({
-  model: "openrouter/free",
-  messages: [{ role: "user", content: prompt }],
-  max_tokens: 2000
-})
+        model: "openrouter/free",
+        messages: [{ role: "user", content: prompt }],
+        max_tokens: 2000
+      })
+    });
 
     const data = await response.json();
 
@@ -82,7 +78,6 @@ RULES:
     const jsonStart = text.indexOf("{");
     const jsonEnd = text.lastIndexOf("}");
     const cleanJson = text.substring(jsonStart, jsonEnd + 1);
-
     const parsed = JSON.parse(cleanJson);
     res.json(parsed);
 
