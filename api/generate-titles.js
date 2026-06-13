@@ -11,40 +11,20 @@ module.exports = async function handler(req, res) {
       return res.status(500).json({ error: "No API key configured" });
     }
 
-    const prompt = `You are YTGEN, an elite YouTube SEO strategist.
-Generate exactly 10 YouTube video titles for:
-- Video Idea: "${videoIdea}"
-- Keywords: ${JSON.stringify(keywords || [])}
-- Category: "${majorCategory || "Auto Detect"}"
-- Format: "${format || "Standard"}"
-- Tone: "${tone || "Conversational"}"
+  const prompt = `You are a YouTube SEO expert. Generate 10 video titles.
 
-Return ONLY valid JSON:
+Video Idea: "${videoIdea}"
+Keywords: ${JSON.stringify(keywords || [])}
+Tone: "${tone || "Conversational"}"
+
+Return ONLY this JSON format:
 {
-  "niche_detected": "Category -> Custom Niche",
+  "niche_detected": "Category -> Niche",
   "track_a": [
-    {
-      "title": "SEO optimized title here",
-      "framework": "How-To",
-      "curiosity_score": 75,
-      "seo_score": 85,
-      "safety": "SAFE",
-      "chars": 55,
-      "front_loaded": true,
-      "why": "reason this title works"
-    }
+    {"title": "title here", "framework": "How-To", "curiosity_score": 75, "seo_score": 85, "safety": "SAFE", "chars": 45, "front_loaded": true, "why": "explanation"}
   ],
   "track_b": [
-    {
-      "title": "Curiosity gap title here",
-      "framework": "Curiosity Gap",
-      "curiosity_score": 90,
-      "seo_score": 70,
-      "safety": "SAFE",
-      "chars": 58,
-      "front_loaded": false,
-      "why": "reason this title works"
-    }
+    {"title": "title here", "framework": "Curiosity Gap", "curiosity_score": 90, "seo_score": 70, "safety": "SAFE", "chars": 48, "front_loaded": false, "why": "explanation"}
   ]
 }
 
