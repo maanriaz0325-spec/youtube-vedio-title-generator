@@ -52,7 +52,9 @@ RULES:
 - track_a: exactly 5 SEO-optimized titles
 - track_b: exactly 5 curiosity/psychology titles
 - Max 65 characters per title
-- Return ONLY JSON, no markdown`;
+- ALL numeric values must be integers (e.g. 52, not "fifty-two")
+- chars field must be a number, not words
+- Return ONLY JSON, no markdown
 
     const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
