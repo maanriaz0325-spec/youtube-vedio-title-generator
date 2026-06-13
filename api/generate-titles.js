@@ -62,10 +62,10 @@ RULES:
         "HTTP-Referer": "https://youtube-title-generator.vercel.app",
       },
       body: JSON.stringify({
-        model: "openrouter/free",
-        messages: [{ role: "user", content: prompt }],
-        max_tokens: 2000
-      })
+  model: "openrouter/free",
+  messages: [{ role: "user", content: prompt }],
+  max_tokens: 4000
+})
     });
 
     const data = await response.json();
