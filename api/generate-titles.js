@@ -67,12 +67,31 @@ Return ONLY: "Category -> Specific Niche" (example: "Cooking -> Budget Recipes")
     ]);
 
     const parseArray = (text) => {
-      const start = text.indexOf("[");
-      const end = text.lastIndexOf("]");
-      if (start === -1 || end === -1) return [];
-      try { return JSON.parse(text.substring(start, end + 1)); }
-      catch(e) { return []; }
-    };
+  const start = text.indexOf("[");
+  const end = text.lastIndexOf("]");
+  if (start === -1 || end === -1) {
+    // Try to find JSON object with track_a
+    const objStart = text.indexOf("{");
+    const objEnd = text.lastIndexOf("}");
+    if (objStart !== -1 && objEnd !== -1) {
+      try {
+        const obj = JSON.parse(text.substring(objStart, objEnd + 1));
+        if (Array.isArray(obj)) return obj;
+        if (obj.track_a) return obj.track_a;
+        if (obj.track_b) return obj.track_b;
+      } catch(e) {}
+    }
+    return [];
+  }
+  try { 
+    const parsed = JSON.parse(text.substring(start, end + 1));
+    return Array.isArray(parsed) ? parsed : [];
+  }
+  catch(e) { 
+    console.error("Parse error:", e.message, text.substring(start, start+200));
+    return []; 
+  }
+};
 
     res.json({
       niche_detected: nicheText.trim().replace(/['"]/g, ""),
