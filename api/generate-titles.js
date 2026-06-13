@@ -67,8 +67,7 @@ RULES:
         "HTTP-Referer": "https://youtube-title-generator.vercel.app",
       },
       body: JSON.stringify({
-model: "meta-llama/llama-3.2-3b-instruct:free",        messages: [{ role: "user", content: prompt }]
-      })
+model: "openrouter/free",      })
     });
 
     const data = await response.json();
