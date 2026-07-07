@@ -39,6 +39,16 @@ import {
 } from "./data/presets";
 
 export default function App() {
+  useEffect(() => {
+  const sendHeight = () => {
+    const height = document.body.scrollHeight;
+    window.parent.postMessage({ type: 'resize-iframe', height }, '*');
+  };
+  sendHeight();
+  const observer = new ResizeObserver(sendHeight);
+  observer.observe(document.body);
+  return () => observer.disconnect();
+}, []);
   // Input form state
   const [videoIdea, setVideoIdea] = useState("");
   const [keywordInput, setKeywordInput] = useState("");
